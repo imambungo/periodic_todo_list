@@ -15,6 +15,14 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+### Alternative Tutorials
+
+- Tutorial video: [Flutter Tutorial for Beginners](https://www.youtube.com/playlist?list=PL4cUxeGkcC9jLYyp2Aoh6hcWuxFDX6PBJ).
+
+### Sample Flutter Projects
+
+- [startup_namer](https://github.com/imambungo/startup_namer).
+
 ## Documentation
 
 user-doc dan design-doc bisa dilihat di dalam direktori [docs](docs).
