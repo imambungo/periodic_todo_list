@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:periodic_todo_list/services/auth.dart';
+import 'package:periodic_todo_list/shared/constant.dart';
+import 'package:periodic_todo_list/shared/loading.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -9,6 +11,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
+  bool loading = false;
 
   // text field state
   String email = '';
@@ -17,7 +20,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() :  Scaffold(
         backgroundColor: Colors.brown[100],
         appBar: AppBar(
             backgroundColor: Colors.brown[400],
@@ -31,6 +34,7 @@ class _SignInState extends State<SignIn> {
               children: <Widget>[
                 SizedBox(height: 20.0),
                 TextFormField(
+                  decoration: textInputDecoration.copyWith(hintText: 'Email'),
                   validator: (val) => val.isEmpty ? 'Enter an email' : null,
                   onChanged: (val) {
                     setState(() => email = val);
@@ -38,6 +42,8 @@ class _SignInState extends State<SignIn> {
                 ),
                 SizedBox(height: 20.0),
                 TextFormField(
+                  decoration:
+                      textInputDecoration.copyWith(hintText: 'Password'),
                   validator: (val) => val.length < 6
                       ? 'Enter a password at least 6 character'
                       : null,
@@ -55,12 +61,16 @@ class _SignInState extends State<SignIn> {
                   ),
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
+                      setState(() {
+                        loading = true;
+                      });
                       dynamic result = _authService.signInWithEmailAndPassword(
                           email, password);
 
                       if (result == null) {
                         setState(() {
                           error = 'Could not sign in with those credentials';
+                          loading = false;
                         });
                       }
                     }
