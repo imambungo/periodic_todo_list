@@ -10,12 +10,6 @@ class _ModifyTaskState extends State<StatefulWidget> {
   Map arguments = {};
   Task task = null;
 
-  void _updateTask() {
-    Navigator.pop(context, {
-      'task' : task
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     arguments = ModalRoute.of(context).settings.arguments;
@@ -43,7 +37,7 @@ class _ModifyTaskState extends State<StatefulWidget> {
         onPressed: () {
           // TODO
           task.task = 'neeh';
-          _updateTask();
+          Navigator.pop(context);
         },
         child: Icon(Icons.check),
         backgroundColor: Colors.grey[400],
