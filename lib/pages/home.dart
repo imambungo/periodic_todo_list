@@ -18,9 +18,10 @@ class _HomeState extends State<StatefulWidget> {
       (a, b) => a.hariH.compareTo(b.hariH)
     );
 
-    return ListView.builder(
+    return ListView.separated(
       padding: const EdgeInsets.all(16),
       itemCount: tasks.length,
+      separatorBuilder: (BuildContext context, int index) => Divider(height: 1),
       itemBuilder: (context, index) {
         return _taskBuilder(tasks[index]);
       },
@@ -29,15 +30,31 @@ class _HomeState extends State<StatefulWidget> {
 
   Widget _taskBuilder(Task task) {
     return ListTile(
+      leading: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            '${task.hariH}',
+          ),
+          Icon(
+            Icons.today,
+          ),
+        ],
+      ),
       title: Text(
         task.task,
       ),
-      leading: Text(
-        '${task.periode}',
+      trailing: IconButton(
+        icon: Icon(Icons.check),
+        onPressed: () {
+          // TODO
+        },
       ),
+      /*
       trailing: Text(
         '${task.hariH}',
       ),
+      */
       onTap: () {
         _modifyTask(task);
       }
@@ -58,7 +75,7 @@ class _HomeState extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[800],
+      //backgroundColor: Colors.grey[800],
       body: SafeArea(
         child: Column(
           children: <Widget>[
@@ -74,7 +91,7 @@ class _HomeState extends State<StatefulWidget> {
           // TODO
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.grey[400],
+        //backgroundColor: Colors.grey[400],
       ),
     );
   }

@@ -16,7 +16,7 @@ class _ModifyTaskState extends State<StatefulWidget> {
     task = arguments['task'];
 
     return Scaffold(
-      backgroundColor: Colors.grey[800],
+      //backgroundColor: Colors.grey[800],
       appBar: AppBar(
         title: Text('Modify task'),
         actions: <Widget>[
@@ -47,7 +47,7 @@ class _ModifyTaskState extends State<StatefulWidget> {
           Navigator.pop(context, {'delete': false});
         },
         child: Icon(Icons.check),
-        backgroundColor: Colors.grey[400],
+        //backgroundColor: Colors.grey[400],
       ),
     );
   }
