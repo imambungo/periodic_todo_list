@@ -39,9 +39,15 @@ class _HomeState extends State<StatefulWidget> {
         '${task.hariH}',
       ),
       onTap: () {
-        // TODO
-      },
+        _modifyTask(task);
+      }
     );
+  }
+
+  void _modifyTask(Task task) {
+    Navigator.pushNamed(context, '/modify_task', arguments: {
+       'task' : task
+    });
   }
 
   @override

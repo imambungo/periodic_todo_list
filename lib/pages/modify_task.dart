@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../task.dart';
 
 class ModifyTask extends StatefulWidget {
   @override
@@ -6,12 +7,17 @@ class ModifyTask extends StatefulWidget {
 }
 
 class _ModifyTaskState extends State<StatefulWidget> {
+  Map arguments = {};
+
   @override
   Widget build(BuildContext context) {
+    arguments = ModalRoute.of(context).settings.arguments;
+    Task task = arguments['task'];
+
     return Scaffold(
       backgroundColor: Colors.grey[800],
       appBar: AppBar(
-        title: Text('#nama task'),
+        title: Text('${task.task}'),
       ),
     );
   }
