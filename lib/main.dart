@@ -5,6 +5,6 @@ import 'pages/modify_task.dart';
 void main() => runApp(MaterialApp(
   routes: {
     '/': (context) => Home(),
-    '/modifytask': (context) => ModifyTask(),
+    '/modify_task': (context) => ModifyTask(),
   }
 ));
