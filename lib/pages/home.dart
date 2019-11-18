@@ -8,12 +8,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<StatefulWidget> {
   List<Task> tasks = [
+    Task(task: 'belajar mobile app', hariH: 2, periode: 4),
     Task(task: 'jogging', hariH: -3, periode: 7),
     Task(task: 'main voli', hariH: 1, periode: 2),
-    Task(task: 'belajar mobile app', hariH: 2, periode: 4),
   ];
 
   Widget _taskListBuilder() {
+    tasks.sort(
+      (a, b) => a.hariH.compareTo(b.hariH)
+    );
+
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: tasks.length,
