@@ -4,6 +4,9 @@ import 'package:periodic_todo_list/shared/constant.dart';
 import 'package:periodic_todo_list/shared/loading.dart';
 
 class Register extends StatefulWidget {
+  final Function toggleView;
+  Register({this.toggleView});
+
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -20,7 +23,9 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return loading ? Loading() : Scaffold(
+    return loading
+        ? Loading()
+        : Scaffold(
             backgroundColor: Colors.brown[100],
             appBar: AppBar(
                 backgroundColor: Colors.brown[400],
@@ -67,10 +72,8 @@ class _RegisterState extends State<Register> {
                           });
                           dynamic result = await _authService
                               .registerWithEmailAndPassword(email, password);
-
                           if (result == null) {
                             setState(() {
-                              loading = false;
                               error = 'Please type a valid email';
                             });
                           }
@@ -85,6 +88,14 @@ class _RegisterState extends State<Register> {
                   ],
                 ),
               ),
-            ));
+            ),
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.person_pin),
+              onPressed: () {
+                widget.toggleView();
+              },
+              tooltip: 'Register',
+            ),
+            );
   }
 }

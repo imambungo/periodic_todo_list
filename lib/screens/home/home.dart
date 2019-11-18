@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:periodic_todo_list/screens/home/TodoList.dart';
 import 'package:periodic_todo_list/services/auth.dart';
 
 class Home extends StatelessWidget {
@@ -8,6 +9,14 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[50],
+      body: TodoList(),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.exit_to_app),
+        onPressed: () async {
+          await _auth.singOut();
+        },
+        tooltip: 'Log out',
+      ),
       appBar: AppBar(
         title: Text('To-do List'),
         backgroundColor: Colors.blue[400],
@@ -16,9 +25,7 @@ class Home extends StatelessWidget {
           FlatButton.icon(
             icon: Icon(Icons.add),
             label: Text('Add task'),
-            onPressed: () async {
-              await _auth.singOut();
-            },
+            onPressed: () {},
           )
         ],
       ),
