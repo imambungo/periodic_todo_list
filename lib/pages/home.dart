@@ -44,10 +44,15 @@ class _HomeState extends State<StatefulWidget> {
     );
   }
 
-  void _modifyTask(Task task) {
-    Navigator.pushNamed(context, '/modify_task', arguments: {
-       'task' : task
-    });
+  void _modifyTask(Task task) async {
+    dynamic data = await Navigator.pushNamed(
+                     context,
+                     '/modify_task',
+                     arguments: { 'task' : task },
+                   );
+
+    if (data['delete'])
+      tasks.remove(task);
   }
 
   @override

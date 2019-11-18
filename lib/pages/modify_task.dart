@@ -19,6 +19,14 @@ class _ModifyTaskState extends State<StatefulWidget> {
       backgroundColor: Colors.grey[800],
       appBar: AppBar(
         title: Text('Modify task'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+              Navigator.pop(context, {'delete': true} );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
