@@ -23,7 +23,7 @@ class _ModifyTaskState extends State<StatefulWidget> {
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
-              Navigator.pop(context, {'delete': true} );
+              Navigator.pop(context, {'delete': true});
             },
           ),
         ],
@@ -43,18 +43,12 @@ class _ModifyTaskState extends State<StatefulWidget> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO
           task.task = 'neeh';
-          Navigator.pop(context);
+          Navigator.pop(context, {'delete': false});
         },
         child: Icon(Icons.check),
         backgroundColor: Colors.grey[400],
       ),
-      /*
-      body: Text(
-        'Task name: ${task.task}\ntes'
-      ),
-      */
     );
   }
 }
