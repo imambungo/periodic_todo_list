@@ -60,7 +60,14 @@ class _HomeState extends State<StatefulWidget> {
     return Scaffold(
       backgroundColor: Colors.grey[800],
       body: SafeArea(
-        child: _taskListBuilder(),
+        child: Column(
+          children: <Widget>[
+            Text('TODO: ${tasks.length}'),
+            Expanded( // https://stackoverflow.com/a/49506624/9157799
+              child: _taskListBuilder(),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
