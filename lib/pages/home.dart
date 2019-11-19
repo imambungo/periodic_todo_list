@@ -15,7 +15,11 @@ class _HomeState extends State<StatefulWidget> {
 
   Widget _taskListBuilder() {
     tasks.sort(
-      (a, b) => a.hariH.compareTo(b.hariH)
+      (a, b) {
+        if (a.hariH == b.hariH)
+          return b.periode.compareTo(a.periode);
+        return a.hariH.compareTo(b.hariH);
+      }
     );
 
     return ListView.separated(
