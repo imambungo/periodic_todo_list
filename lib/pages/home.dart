@@ -8,9 +8,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<StatefulWidget> {
   List<Task> tasks = [
-    Task(task: 'belajar mobile app', hariH: 2, periode: 4),
-    Task(task: 'jogging', hariH: -3, periode: 7),
-    Task(task: 'main voli', hariH: 1, periode: 2),
+    Task(task: 'belajar mobile app', hariH: -2, periode: 4),
+    Task(task: 'jogging', hariH: 3, periode: 7),
+    Task(task: 'main voli', hariH: 0, periode: 2),
   ];
 
   Widget _taskListBuilder() {
@@ -18,7 +18,7 @@ class _HomeState extends State<StatefulWidget> {
       (a, b) {
         if (a.hariH == b.hariH)
           return b.periode.compareTo(a.periode);
-        return a.hariH.compareTo(b.hariH);
+        return b.hariH.compareTo(a.hariH);
       }
     );
 
@@ -32,16 +32,34 @@ class _HomeState extends State<StatefulWidget> {
     );
   }
 
+  Color _calendarColor(Task task) {
+    if (task.hariH == 0)
+      return Colors.blue;
+    if (task.hariH > 0)
+      return Colors.red;
+    return Colors.grey;
+  }
+
+  String _tampilHariH(task) {
+    if (task.hariH > 0)
+      return ' +${task.hariH}';
+    if (task.hariH < 0)
+      return ' ${task.hariH}';
+    return '';
+  }
+
   Widget _taskBuilder(Task task) {
     return ListTile(
       leading: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(
-            '${task.hariH}',
-          ),
           Icon(
-            Icons.today,
+              Icons.today,
+              color: _calendarColor(task),
+          ),
+          Text(
+            //' ${task.hariH}',
+            _tampilHariH(task),
           ),
         ],
       ),
@@ -51,11 +69,11 @@ class _HomeState extends State<StatefulWidget> {
       trailing: IconButton(
         icon: Icon(
           Icons.check,
-          color: task.hariH > 1 ? Colors.green : Colors.grey,
+          color: task.hariH < 0 ? Colors.green : Colors.grey,
         ),
         onPressed: () {
           setState(() {
-            task.hariH = task.periode;
+            task.hariH = -task.periode;
           });
         },
       ),
@@ -79,7 +97,7 @@ class _HomeState extends State<StatefulWidget> {
   }
 
   void _addNewTask() async {
-    Task newTask = Task(task: 'Task name', periode: 7, hariH: 7);
+    Task newTask = Task(task: 'Task name', periode: 7, hariH: -7);
     dynamic data = await _modifyTask(newTask);
 
     if (data['modify'])

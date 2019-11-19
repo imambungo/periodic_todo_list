@@ -70,8 +70,8 @@ class _ModifyTaskState extends State<StatefulWidget> {
         onPressed: () {
           task.task = taskController.text;
           task.periode = period;
-          if (task.hariH > task.periode)
-            task.hariH = task.periode;
+          if (task.hariH < -task.periode)
+            task.hariH = -task.periode;
 
           Navigator.pop(context, {'delete': false, 'modify': true});
         },
