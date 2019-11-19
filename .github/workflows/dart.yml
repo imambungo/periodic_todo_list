@@ -1,6 +1,6 @@
 on: push
 
-name: Newnew
+name: Build APK
 jobs:
   build:
     name: Build APK
@@ -18,11 +18,5 @@ jobs:
     - run: flutter build apk --debug --split-per-abi
     - uses: actions/upload-artifact@master
       with:
-        name: app-x86_64-debug.apk
+        name: APK
         path: build/app/outputs/apk/debug
-      
-#    - name: Push APK to Releases
- #  uses: ncipollo/release-action@v1
-  #    with:
-   #     artifacts: "build/app/outputs/apk/debug/*.apk"
-    #    token: ${{ secrets.TOKEN }}
