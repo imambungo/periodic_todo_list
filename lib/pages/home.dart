@@ -50,11 +50,6 @@ class _HomeState extends State<StatefulWidget> {
           // TODO
         },
       ),
-      /*
-      trailing: Text(
-        '${task.hariH}',
-      ),
-      */
       onTap: () {
         _modifyTask(task);
       }

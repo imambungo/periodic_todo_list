@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../task.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class ModifyTask extends StatefulWidget {
   @override
@@ -11,14 +12,11 @@ class _ModifyTaskState extends State<StatefulWidget> {
   Task task;
 
   TextEditingController taskController;
-  //final periodController = TextEditingController();
-  //final hariHController = TextEditingController();
+  int period;
 
   @override
   void dispose() {
     taskController.dispose();
-    //periodController.dispose();
-    //hariHController.dispose();
     super.dispose();
   }
 
@@ -28,6 +26,7 @@ class _ModifyTaskState extends State<StatefulWidget> {
     task = arguments['task'];
 
     taskController = TextEditingController(text: task.task);
+    period = task.periode;
 
     return Scaffold(
       //backgroundColor: Colors.grey[800],
@@ -48,11 +47,18 @@ class _ModifyTaskState extends State<StatefulWidget> {
             'Task name: ${task.task}'
           ),
           TextFormField(
-            //initialValue: task.task,
             controller: taskController,
           ),
           Text(
             'Period: ${task.periode}'
+          ),
+          NumberPicker.integer(
+            initialValue: task.periode,
+            minValue: 1,
+            maxValue: 30,
+            onChanged: (newValue) {
+              period = newValue;
+            },
           ),
           Text(
             'Due: ${task.hariH}'
@@ -62,6 +68,10 @@ class _ModifyTaskState extends State<StatefulWidget> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           task.task = taskController.text;
+          task.periode = period;
+          if (task.hariH > task.periode)
+            task.hariH = task.periode;
+
           Navigator.pop(context, {'delete': false});
         },
         child: Icon(Icons.check),
