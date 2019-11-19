@@ -1,9 +1,6 @@
-on:
-  push:
-    tags:
-    - 'v*'
+on: push
 
-name: New
+name: Newnew
 jobs:
   build:
     name: Build APK
@@ -19,8 +16,13 @@ jobs:
     - run: flutter pub get
     - run: flutter test
     - run: flutter build apk --debug --split-per-abi
-    - name: Push APK to Releases
-      uses: ncipollo/release-action@v1
+    - uses: actions/upload-artifact@master
       with:
-        artifacts: "build/app/outputs/apk/debug/*.apk"
-        token: ${{ secrets.TOKEN }}
+        name: app-x86_64-debug.apk
+        path: build/app/outputs/apk/debug
+      
+#    - name: Push APK to Releases
+ #  uses: ncipollo/release-action@v1
+  #    with:
+   #     artifacts: "build/app/outputs/apk/debug/*.apk"
+    #    token: ${{ secrets.TOKEN }}
