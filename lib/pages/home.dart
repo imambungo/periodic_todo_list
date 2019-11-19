@@ -104,7 +104,7 @@ class _HomeState extends State<StatefulWidget> {
       tasks.add(newTask);
   }
 
-  int _todo() {
+  int _todoNumber() {
     int todo = 0;
     tasks.forEach((task) {
       if (task.hariH >= 0)
@@ -114,6 +114,16 @@ class _HomeState extends State<StatefulWidget> {
     return todo;
   }
 
+  Widget _todo() {
+    int todo = _todoNumber();
+    String result = 'TODO: $todo';
+
+    if (todo == 0)
+      result += ' 🎉';
+
+    return Text(result);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,7 +131,7 @@ class _HomeState extends State<StatefulWidget> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            Text('TODO: ${_todo()}'),
+            _todo(),
             Expanded( // https://stackoverflow.com/a/49506624/9157799
               child: _taskListBuilder(),
             ),
