@@ -66,15 +66,15 @@ class _ModifyTaskState extends State<StatefulWidget> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.check),
         onPressed: () {
           task.task = taskController.text;
           task.periode = period;
           if (task.hariH > task.periode)
             task.hariH = task.periode;
 
-          Navigator.pop(context, {'delete': false});
+          Navigator.pop(context, {'delete': false, 'modify': true});
         },
-        child: Icon(Icons.check),
         //backgroundColor: Colors.grey[400],
       ),
     );

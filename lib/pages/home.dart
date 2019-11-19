@@ -60,7 +60,7 @@ class _HomeState extends State<StatefulWidget> {
     );
   }
 
-  void _modifyTask(Task task) async {
+  dynamic _modifyTask(Task task) async {
     dynamic data = await Navigator.pushNamed(
                      context,
                      '/modify_task',
@@ -69,6 +69,16 @@ class _HomeState extends State<StatefulWidget> {
 
     if (data['delete'])
       tasks.remove(task);
+
+    return data;
+  }
+
+  void _addNewTask() async {
+    Task newTask = Task(task: 'Task name', periode: 7, hariH: 7);
+    dynamic data = await _modifyTask(newTask);
+
+    if (data['modify'])
+      tasks.add(newTask);
   }
 
   @override
@@ -87,7 +97,7 @@ class _HomeState extends State<StatefulWidget> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO
+          _addNewTask();
         },
         child: Icon(Icons.add),
         //backgroundColor: Colors.grey[400],
