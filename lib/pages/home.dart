@@ -49,9 +49,14 @@ class _HomeState extends State<StatefulWidget> {
         task.task,
       ),
       trailing: IconButton(
-        icon: Icon(Icons.check),
+        icon: Icon(
+          Icons.check,
+          color: task.hariH > 1 ? Colors.green : Colors.grey,
+        ),
         onPressed: () {
-          // TODO
+          setState(() {
+            task.hariH = task.periode;
+          });
         },
       ),
       onTap: () {
