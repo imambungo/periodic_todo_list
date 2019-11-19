@@ -104,6 +104,16 @@ class _HomeState extends State<StatefulWidget> {
       tasks.add(newTask);
   }
 
+  int _todo() {
+    int todo = 0;
+    tasks.forEach((task) {
+      if (task.hariH >= 0)
+        todo++;
+    });
+
+    return todo;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,7 +121,7 @@ class _HomeState extends State<StatefulWidget> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            Text('TODO: ${tasks.length}'),
+            Text('TODO: ${_todo()}'),
             Expanded( // https://stackoverflow.com/a/49506624/9157799
               child: _taskListBuilder(),
             ),
