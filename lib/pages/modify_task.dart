@@ -41,29 +41,34 @@ class _ModifyTaskState extends State<StatefulWidget> {
           ),
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          Text(
-            'Task name: ${task.task}'
-          ),
-          TextFormField(
-            controller: taskController,
-          ),
-          Text(
-            'Period: ${task.periode}'
-          ),
-          NumberPicker.integer(
-            initialValue: task.periode,
-            minValue: 1,
-            maxValue: 30,
-            onChanged: (newValue) {
-              period = newValue;
-            },
-          ),
-          Text(
-            'Due: ${task.hariH}'
-          ),
-        ],
+      body: Padding(
+        padding: EdgeInsets.all(33),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            TextFormField(
+              controller: taskController,
+            ),
+            SizedBox(
+              height: 70,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Repeat every'),
+                NumberPicker.integer(
+                    initialValue: task.periode,
+                    minValue: 1,
+                    maxValue: 30,
+                    onChanged: (newValue) {
+                      period = newValue;
+                    },
+                ),
+                Text('day(s)'),
+              ],
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.check),

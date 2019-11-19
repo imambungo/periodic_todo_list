@@ -129,13 +129,16 @@ class _HomeState extends State<StatefulWidget> {
     return Scaffold(
       //backgroundColor: Colors.grey[800],
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            _todo(),
-            Expanded( // https://stackoverflow.com/a/49506624/9157799
-              child: _taskListBuilder(),
-            ),
-          ],
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 21),
+          child: Column(
+            children: <Widget>[
+              _todo(),
+              Expanded( // https://stackoverflow.com/a/49506624/9157799
+                child: _taskListBuilder(),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
