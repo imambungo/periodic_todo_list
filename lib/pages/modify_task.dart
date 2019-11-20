@@ -11,7 +11,7 @@ class _ModifyTaskState extends State<StatefulWidget> {
   Map arguments = {};
   Task task;
 
-  TextEditingController taskController;
+  TextEditingController taskController = TextEditingController(text: '');
   int period;
 
   @override
@@ -25,7 +25,9 @@ class _ModifyTaskState extends State<StatefulWidget> {
     arguments = ModalRoute.of(context).settings.arguments;
     task = arguments['task'];
 
-    taskController = TextEditingController(text: task.task);
+    if (taskController.text == '')
+      taskController.text = task.task;
+
     period = task.periode;
 
     return Scaffold(
@@ -48,6 +50,12 @@ class _ModifyTaskState extends State<StatefulWidget> {
           children: <Widget>[
             TextFormField(
               controller: taskController,
+              onSaved: (newTask) {
+                taskController.text = newTask;
+              },
+              decoration: InputDecoration(
+                            hintText: 'Task name',
+                          ),
             ),
             SizedBox(
               height: 70,
