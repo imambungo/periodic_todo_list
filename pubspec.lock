@@ -74,8 +74,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-<<<<<<< HEAD
-=======
   image:
     dependency: transitive
     description:
@@ -90,7 +88,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1+1"
->>>>>>> firebase
   matcher:
     dependency: transitive
     description:
