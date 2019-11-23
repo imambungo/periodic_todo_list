@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../task.dart';
+import 'package:redo/task.dart';
 
 class Home extends StatefulWidget {
   @override
