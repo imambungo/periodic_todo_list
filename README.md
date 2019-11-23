@@ -1,4 +1,4 @@
-# periodic_todo_list
+# redo
 
 Sebuah to-do list untuk task yang harus dilakukan secara berkala.
 
