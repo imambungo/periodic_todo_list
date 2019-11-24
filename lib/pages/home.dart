@@ -11,6 +11,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<StatefulWidget> {
   Directory dataDir;
+  File dataFile;
   bool dataDirLoaded = false;
 
   List<Task> tasks = [
@@ -84,7 +85,8 @@ class _HomeState extends State<StatefulWidget> {
         },
       ),
       onTap: () {
-        _modifyTask(task);
+        //_modifyTask(task);
+        _saveData();
       }
     );
   }
@@ -110,13 +112,39 @@ class _HomeState extends State<StatefulWidget> {
       tasks.add(newTask);
   }
 
+  Future<File> _getDataFile(String dataDirPath) async {
+    return File('$dataDirPath/dataFile.json');
+  }
+
   void _getDataDir() async {
     dataDir = await getApplicationDocumentsDirectory();
-    await Future.delayed(const Duration(seconds: 2));
-    print('UPDATE NIIIH');
+    dataFile = await _getDataFile(dataDir.path);
     dataDirLoaded = true;
+    await Future.delayed(const Duration(seconds: 2));
     setState(() {});
-    print(dataDir.path);
+    print('UPDATE NIIIH');
+    print(dataFile);
+  }
+
+  void _saveData() async {
+    try {
+      print('MENYIMPAN DATA');
+      dataFile = await dataFile.writeAsString('hohoho');
+      print('TIDAK ADA ERROR SAAT MENYIMPAN DATA');
+    } catch (e) {
+      print('ERROR SAAT MENYIMPAN DATA!');
+    }
+  }
+
+  Future<String> _readData() async {
+    try {
+      print('READING DATA');
+      String data = await dataFile.readAsString();
+      print('TIDAK ADA ERROR SAAT READING DATA');
+      return data;
+    } catch (e) {
+      return 'ERROR SAAT READING DATA!';
+    }
   }
 
   int _todoNumber() {
@@ -145,6 +173,12 @@ class _HomeState extends State<StatefulWidget> {
     _getDataDir();
   }
 
+  void pembuktian() async {
+    String bukti = await _readData();
+    tasks[0].task = bukti;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     print('BUUUUUIIIILLDDD');
@@ -166,8 +200,8 @@ class _HomeState extends State<StatefulWidget> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _addNewTask();
-          // print('OOOOOOOOOOOOOOOOOO' + dataDir.path);
+          //_addNewTask();
+          pembuktian();
         },
         child: Icon(Icons.add),
         //backgroundColor: Colors.grey[400],
