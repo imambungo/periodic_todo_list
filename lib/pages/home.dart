@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redo/task.dart';
@@ -17,7 +18,7 @@ class _HomeState extends State<StatefulWidget> {
   List<Task> tasks = [
     Task(task: 'belajar mobile app', hariH: -2, periode: 4),
     Task(task: 'jogging', hariH: 3, periode: 7),
-    Task(task: 'main voli', hariH: 0, periode: 2),
+    Task(task: 'belajar bahasa inggris', hariH: 0, periode: 5),
   ];
 
   Widget _taskListBuilder() {
@@ -28,6 +29,8 @@ class _HomeState extends State<StatefulWidget> {
         return b.hariH.compareTo(a.hariH);
       }
     );
+
+    _saveData();
 
     return ListView.separated(
       padding: const EdgeInsets.all(16),
@@ -85,8 +88,7 @@ class _HomeState extends State<StatefulWidget> {
         },
       ),
       onTap: () {
-        //_modifyTask(task);
-        _saveData();
+        _modifyTask(task);
       }
     );
   }
@@ -119,6 +121,7 @@ class _HomeState extends State<StatefulWidget> {
   void _getDataDir() async {
     dataDir = await getApplicationDocumentsDirectory();
     dataFile = await _getDataFile(dataDir.path);
+    await _loadData();
     dataDirLoaded = true;
     await Future.delayed(const Duration(seconds: 2));
     setState(() {});
@@ -126,24 +129,37 @@ class _HomeState extends State<StatefulWidget> {
     print(dataFile);
   }
 
-  void _saveData() async {
+  Future<void> _saveData() async {
+    print('MENYIMPAN DATA');
     try {
-      print('MENYIMPAN DATA');
-      dataFile = await dataFile.writeAsString('hohoho');
+      String data = jsonEncode(tasks);
+      print('YANG MAU DISIMPAN: $data');
+      dataFile = await dataFile.writeAsString(data);
       print('TIDAK ADA ERROR SAAT MENYIMPAN DATA');
     } catch (e) {
       print('ERROR SAAT MENYIMPAN DATA!');
     }
   }
 
-  Future<String> _readData() async {
+  Future<void> _loadData() async {
+    print('READING DATA');
     try {
-      print('READING DATA');
       String data = await dataFile.readAsString();
+      print('HASIL READ (baru string): $data');
+      try {
+        List<dynamic> tasksMap = jsonDecode(data);
+        tasks = tasksMap.map((task) => Task.fromJson(task)).toList();
+        print('OOOKKKEEEEE');
+      } catch (e) {
+        print('UUUUUUUUUUUUUU');
+        print('PESAN ERROR: $e');
+      }
+      print(tasks[0].task);
       print('TIDAK ADA ERROR SAAT READING DATA');
-      return data;
     } catch (e) {
-      return 'ERROR SAAT READING DATA!';
+      print('DATA TIDAK DITEMUKAN, MENGGUNAKAN DATA SAMPLE.');
+      print('PESAN ERROR: $e');
+      await _saveData();
     }
   }
 
@@ -173,18 +189,11 @@ class _HomeState extends State<StatefulWidget> {
     _getDataDir();
   }
 
-  void pembuktian() async {
-    String bukti = await _readData();
-    tasks[0].task = bukti;
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     print('BUUUUUIIIILLDDD');
     print(dataDirLoaded);
     return dataDirLoaded ? Scaffold(
-      //backgroundColor: Colors.grey[800],
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 21),
@@ -200,11 +209,9 @@ class _HomeState extends State<StatefulWidget> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //_addNewTask();
-          pembuktian();
+          _addNewTask();
         },
         child: Icon(Icons.add),
-        //backgroundColor: Colors.grey[400],
       ),
     ) : Loading();
   }
