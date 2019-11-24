@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:redo/task.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:redo/task.dart';
+import 'package:redo/loading.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,6 +10,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<StatefulWidget> {
+  Directory dataDir;
+  bool dataDirLoaded = false;
+
   List<Task> tasks = [
     Task(task: 'belajar mobile app', hariH: -2, periode: 4),
     Task(task: 'jogging', hariH: 3, periode: 7),
@@ -105,6 +110,15 @@ class _HomeState extends State<StatefulWidget> {
       tasks.add(newTask);
   }
 
+  void _getDataDir() async {
+    dataDir = await getApplicationDocumentsDirectory();
+    await Future.delayed(const Duration(seconds: 2));
+    print('UPDATE NIIIH');
+    dataDirLoaded = true;
+    setState(() {});
+    print(dataDir.path);
+  }
+
   int _todoNumber() {
     int todo = 0;
     tasks.forEach((task) {
@@ -126,8 +140,16 @@ class _HomeState extends State<StatefulWidget> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _getDataDir();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    print('BUUUUUIIIILLDDD');
+    print(dataDirLoaded);
+    return dataDirLoaded ? Scaffold(
       //backgroundColor: Colors.grey[800],
       body: SafeArea(
         child: Padding(
@@ -145,10 +167,11 @@ class _HomeState extends State<StatefulWidget> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _addNewTask();
+          // print('OOOOOOOOOOOOOOOOOO' + dataDir.path);
         },
         child: Icon(Icons.add),
         //backgroundColor: Colors.grey[400],
       ),
-    );
+    ) : Loading();
   }
 }
