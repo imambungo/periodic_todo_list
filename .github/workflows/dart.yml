@@ -16,6 +16,7 @@ jobs:
     - run: flutter pub get
 #   - run: flutter test
     - run: flutter build apk --release --split-per-abi
+    - run: flutter build ios --release
     - uses: actions/upload-artifact@master
       with:
         name: APK
