@@ -12,7 +12,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<StatefulWidget> {
   Directory dataDir;
-  File dataFile;
+  File dataFile, dateFile;
   bool dataDirLoaded = false;
 
   List<Task> tasks = [
@@ -118,10 +118,42 @@ class _HomeState extends State<StatefulWidget> {
     return File('$dataDirPath/dataFile.json');
   }
 
+  Future<File> _getDateFile(String dateDirPath) async {
+    return File('$dateDirPath/dateFile');
+  }
+
+  Future<DateTime> _getHariDibukaTerakhir() async {
+    try {
+      print('YYYYYYYYYYYYYYYYYY');
+      String date = await dateFile.readAsString();
+      print('STRING date : $date');
+      return DateTime.parse(date);
+    } catch (e) {
+      print('FAILED TO GET DATE FILE');
+      print('PESAN ERROR: $e');
+      dateFile = await dateFile.writeAsString(DateTime.now().toString());
+    }
+
+    return DateTime.now();
+  }
+
+  Future<void> _updateHari() async {
+    DateTime hariIni = DateTime.now();
+    DateTime hariDibukaTerakhir = await _getHariDibukaTerakhir();
+    int perubahanHari = hariIni.difference(hariDibukaTerakhir).inDays;
+    tasks.forEach((task) {
+      task.hariH += perubahanHari;
+    });
+    dateFile = await dateFile.writeAsString(hariIni.toString());
+  }
+
   void _getDataDir() async {
     dataDir = await getApplicationDocumentsDirectory();
     dataFile = await _getDataFile(dataDir.path);
     await _loadData();
+    dateFile = await _getDateFile(dataDir.path);
+    await _updateHari();
+    await _saveData();
     dataDirLoaded = true;
     await Future.delayed(const Duration(seconds: 2));
     setState(() {});
@@ -159,7 +191,6 @@ class _HomeState extends State<StatefulWidget> {
     } catch (e) {
       print('DATA TIDAK DITEMUKAN, MENGGUNAKAN DATA SAMPLE.');
       print('PESAN ERROR: $e');
-      await _saveData();
     }
   }
 
@@ -176,6 +207,18 @@ class _HomeState extends State<StatefulWidget> {
   Widget _todo() {
     int todo = _todoNumber();
     String result = 'TODO: $todo';
+
+    DateTime hariIni = DateTime.now();
+    print('XXXXXXXXXXXXXXXXXXXXXXXXXXX');
+    print(hariIni.runtimeType);
+    print(hariIni);
+    //DateTime limaHariLagi = hariIni.add(Duration(days: 5));
+    DateTime limaHariLagi = hariIni.subtract(Duration(days: 5));
+    print(limaHariLagi);
+    print(limaHariLagi.toString());
+    print('perbedaan = ${limaHariLagi.difference(hariIni).inDays}');
+    print('perbedaan = ${hariIni.difference(limaHariLagi).inDays}');
+    print('XXXXXXXXXXXXXXXXXXXXXXXXXXX');
 
     if (todo == 0)
       result += ' 🎉';
