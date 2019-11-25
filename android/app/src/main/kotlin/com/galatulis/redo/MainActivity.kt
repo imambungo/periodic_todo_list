@@ -1,4 +1,4 @@
-package com.example.redo
+package com.galatulis.redo
 
 import android.os.Bundle
 
