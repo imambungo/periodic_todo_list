@@ -122,6 +122,15 @@ class _HomeState extends State<StatefulWidget> {
     return File('$dateDirPath/dateFile');
   }
 
+  DateTime _getHariIni() {
+    DateTime hariIni = DateTime.now();
+
+    // set jadi tengah malam
+    hariIni = DateTime.parse(hariIni.toString().split(' ')[0]);
+
+    return hariIni;
+  }
+
   Future<DateTime> _getHariDibukaTerakhir() async {
     try {
       print('YYYYYYYYYYYYYYYYYY');
@@ -131,14 +140,16 @@ class _HomeState extends State<StatefulWidget> {
     } catch (e) {
       print('FAILED TO GET DATE FILE');
       print('PESAN ERROR: $e');
-      dateFile = await dateFile.writeAsString(DateTime.now().toString());
+      dateFile = await dateFile.writeAsString(
+        _getHariIni().toString()
+      );
     }
 
     return DateTime.now();
   }
 
   Future<void> _updateHari() async {
-    DateTime hariIni = DateTime.now();
+    DateTime hariIni = _getHariIni();
     DateTime hariDibukaTerakhir = await _getHariDibukaTerakhir();
     int perubahanHari = hariIni.difference(hariDibukaTerakhir).inDays;
     tasks.forEach((task) {
@@ -155,7 +166,7 @@ class _HomeState extends State<StatefulWidget> {
     await _updateHari();
     await _saveData();
     dataDirLoaded = true;
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     setState(() {});
     print('UPDATE NIIIH');
     print(dataFile);
